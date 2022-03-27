@@ -1,0 +1,11 @@
+[package]
+name = "frostom-gear"
+version = "0.1.0"
+edition = "2021"
+authors = ["freeze-dolphin <freeze-dolphin@outlook.com>"]
+license = "BSD-3-Clause"
+
+[dependencies]
+osuparse = "2.0.1"
+lewton = "0.10.2"
+clap = { version = "3.1.6", features = ["derive"] }
