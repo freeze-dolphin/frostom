@@ -1,10 +1,26 @@
-use clap::Parser;
+use std::fs;
 
-use frostom_gear::cfg::Config;
-use frostom_gear::cli::LaunchArgs;
+use clap::Parser;
+use osuparse::parse_beatmap;
+
+use lib::cli::LaunchArgs;
+
+use crate::lib::modes::Mode;
+use crate::lib::parsing::print_hit_objs;
+
+pub mod lib;
 
 fn main() {
-    println!("launching frostom...");
+    let args: LaunchArgs = LaunchArgs::parse();
+    let map = args.input;
 
-    let _args = LaunchArgs::parse();
+    let contents = fs::read_to_string(&map).expect("unable to read the map file");
+
+    let parsed = parse_beatmap(contents.as_str()).expect("unable to parse the map");
+
+    if args.raw {
+        Mode::Raw(parsed).run();
+    } else {
+        Mode::Normal(parsed).run();
+    }
 }

@@ -1,4 +1,6 @@
 pub mod cli;
+pub mod modes;
+pub mod parsing;
 
 #[cfg(test)]
 mod tests {
