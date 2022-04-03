@@ -8,4 +8,7 @@ pub struct LaunchArgs {
 
     #[clap(long, help = "Print map contents")]
     pub raw: bool,
+
+    #[clap(long, help = "For test purpose only, do not use this")]
+    pub test: bool,
 }

@@ -1,12 +1,10 @@
 use std::fs;
 
 use clap::Parser;
-use osuparse::parse_beatmap;
+use osuparse;
 
-use lib::cli::LaunchArgs;
-
-use crate::lib::modes::Mode;
-use crate::lib::parsing::print_hit_objs;
+use crate::lib::cli::LaunchArgs;
+use crate::lib::modes::{ModeBehavior, NormalMode, RawMode, TestMode};
 
 pub mod lib;
 
@@ -16,11 +14,13 @@ fn main() {
 
     let contents = fs::read_to_string(&map).expect("unable to read the map file");
 
-    let parsed = parse_beatmap(contents.as_str()).expect("unable to parse the map");
+    let map = osuparse::parse_beatmap(contents.as_str()).expect("unable to parse the map");
 
-    if args.raw {
-        Mode::Raw(parsed).run();
+    if args.test {
+        TestMode::run(map);
+    } else if args.raw {
+        RawMode::run(map);
     } else {
-        Mode::Normal(parsed).run();
+        NormalMode::run(map);
     }
 }

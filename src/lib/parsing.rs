@@ -1,4 +1,7 @@
 use osuparse::HitObject;
+use rodio::decoder::DecoderError;
+use rodio::Decoder;
+use std::fs::File;
 
 pub fn print_hit_objs(objs: Vec<HitObject>) {
     objs.iter().for_each(print_hit_obj);
