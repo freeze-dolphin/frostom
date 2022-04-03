@@ -1,7 +1,6 @@
-use osuparse::HitObject;
-use rodio::decoder::DecoderError;
-use rodio::Decoder;
-use std::fs::File;
+use crate::lib::distance::Distance;
+use osuparse::{Beatmap, HitCircle, HitObject, HoldNote, TimingPoint};
+use std::collections::HashMap;
 
 pub fn print_hit_objs(objs: Vec<HitObject>) {
     objs.iter().for_each(print_hit_obj);
@@ -24,4 +23,22 @@ pub fn hit_obj_to_string(obj: &HitObject) -> String {
         HitObject::Slider(_) => "Slider".to_string(),
         HitObject::Spinner(_) => "Spinner".to_string(),
     }
+}
+
+pub enum BeatCommand {
+    Timing(TimingPoint),
+    Hit(HitCircle),
+    Hold(HoldNote),
+}
+
+pub type UnifiedBeatmap = HashMap<Distance, Vec<BeatCommand>>;
+
+pub fn unify_beatmap(map: &Beatmap) -> UnifiedBeatmap {
+    let mut u = UnifiedBeatmap::new();
+    map.timing_points.iter().for_each(|f| {
+        let ofs = f.offset as f64;
+        let cont = u.get_mut(&Distance::new(ofs)).unwrap();
+        cont.push(BeatCommand::Timing(TimingPoint { ..*f })); // three lines of codes cost me an hour to write :(
+    });
+    u
 }

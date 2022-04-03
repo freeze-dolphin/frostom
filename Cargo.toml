@@ -10,3 +10,4 @@ osuparse = "*"
 rodio = "*"
 clap = { version = "*", features = ["derive"] }
 cursive = "*"
+crossbeam = "*"

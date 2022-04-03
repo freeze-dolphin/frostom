@@ -1,4 +1,5 @@
 pub mod cli;
+pub mod distance;
 pub mod modes;
 pub mod parsing;
 

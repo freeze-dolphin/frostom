@@ -1,14 +1,14 @@
 use std::fs;
 
 use clap::Parser;
-use osuparse;
 
 use crate::lib::cli::LaunchArgs;
 use crate::lib::modes::{ModeBehavior, NormalMode, RawMode, TestMode};
 
 pub mod lib;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let args: LaunchArgs = LaunchArgs::parse();
     let map = args.input;
 
