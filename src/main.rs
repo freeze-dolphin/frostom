@@ -7,8 +7,7 @@ use crate::lib::modes::{ModeBehavior, NormalMode, RawMode, TestMode};
 
 pub mod lib;
 
-#[tokio::main]
-async fn main() {
+fn main() {
     let args: LaunchArgs = LaunchArgs::parse();
     let map = args.input;
 

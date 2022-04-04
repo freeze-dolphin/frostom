@@ -37,7 +37,9 @@ pub fn unify_beatmap(map: &Beatmap) -> UnifiedBeatmap {
     let mut u = UnifiedBeatmap::new();
     map.timing_points.iter().for_each(|f| {
         let ofs = f.offset as f64;
-        let cont = u.get_mut(&Distance::new(ofs)).unwrap();
+        let mut cont = u
+            .get(&Distance::new(ofs))
+            .unwrap_or_else(|| &(vec![] as Vec<BeatCommand>));
         cont.push(BeatCommand::Timing(TimingPoint { ..*f })); // three lines of codes cost me an hour to write :(
     });
     u

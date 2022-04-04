@@ -5,11 +5,10 @@ use cursive::views::Dialog;
 use osuparse::Beatmap;
 use rodio::{Decoder, OutputStream, Sink};
 use std::fs::File;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 use std::{process, thread};
 
 use crate::lib::parsing;
-use crate::lib::parsing::UnifiedBeatmap;
 
 pub trait ModeBehavior {
     fn run(map: Beatmap);
@@ -37,8 +36,13 @@ impl ModeBehavior for TestMode {
         let unified = parsing::unify_beatmap(&map);
 
         thread::spawn(|| {
-            let ticker = tick(Duration::from_millis(1));
-            let mut time_line = Distance::new(0.0);
+            let start = Instant::now();
+            let ticker = tick(Duration::from_millis(100));
+
+            for _ in 0..5 {
+                let msg = ticker.recv().unwrap();
+                println!("{:?} elapsed: {:?}", msg, start.elapsed());
+            }
         });
 
         sink.append(
